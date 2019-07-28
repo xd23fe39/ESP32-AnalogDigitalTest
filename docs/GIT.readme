@@ -1,0 +1,11 @@
+GIT README
+
+Initialize Projectdir:
+
+echo "# ESP32-AnalogDigitalTest" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/xd23fe39/ESP32-AnalogDigitalTest.git
+git push -u origin master
+

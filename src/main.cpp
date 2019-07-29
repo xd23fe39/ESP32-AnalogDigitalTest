@@ -11,10 +11,13 @@
   3V3          | VCC
   GND          | GND
   VP (GPIO36)  | SIG
+  
+  LED an GPIO4.
 
 */
 #include "Arduino.h"
 
+int LED_SIG = 4;
 unsigned long counter = 0;
 
 void setup() {
@@ -24,6 +27,9 @@ void setup() {
   // initialisiere ADC Interface
   analogSetWidth(10);                   // mögliche Werte: 10-12 
   analogSetAttenuation(ADC_11db);       // bei Poti an 3.3V Spannung 
+  // LED
+  pinMode(LED_SIG,OUTPUT);
+  digitalWrite(LED_SIG, LOW);
 }
 
 void loop() {
@@ -33,5 +39,9 @@ void loop() {
   Serial.print(" ");
   Serial.print(analog_in);
   Serial.println();
-  delay(1000);
+  // LED-Steuerung
+  delay( 2 * analog_in + 100);
+  digitalWrite(LED_SIG,HIGH);
+  delay(50);
+  digitalWrite(LED_SIG,LOW);
 }

@@ -15,10 +15,11 @@
   LED an GPIO4.
 
 */
-#include "Arduino.h"
+#include <Arduino.h>
 
 int LED_SIG = 4;
-unsigned long counter = 0;
+
+int ADC1_PINS[] = {36,34,33,32};
 
 void setup() {
   // put your setup code here, to run once:
@@ -32,16 +33,29 @@ void setup() {
   digitalWrite(LED_SIG, LOW);
 }
 
+long counter = 0;
+
 void loop() {
-  int analog_in;
-  analog_in = analogRead(36);           // lese analogen Wert an ADC0 (GPIO36, VP)
-  Serial.print(++counter);
+  // Photoresistor an ADC1_CH0 (36)
+  int value = analogRead(36);           // lese analogen Wert an ADC0 (GPIO36, VP)
+  counter += 1;
+  Serial.print(counter);
   Serial.print(" ");
-  Serial.print(analog_in);
-  Serial.println();
-  // LED-Steuerung
-  delay( 2 * analog_in + 100);
+  Serial.print(value);
+  // LED-Steuerung 
+  delay( 2 * value + 100);
   digitalWrite(LED_SIG,HIGH);
   delay(50);
   digitalWrite(LED_SIG,LOW);
+  // Alle ADC1 analoger Input lesen und anzeigen
+  Serial.print(" -");
+  int c = sizeof(ADC1_PINS)/sizeof(int);
+  for (int i = 0; i < c; i++) {
+    Serial.print(" ");
+    Serial.print(ADC1_PINS[i]);
+    Serial.print(": ");
+    Serial.print(analogRead(ADC1_PINS[i]));
+  }
+  // Newline
+  Serial.println();
 }
